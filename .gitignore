@@ -1,0 +1,13 @@
+# Environment variables
+.env
+
+# Dependency directories
+node_modules
+
+# Build
+/dist
+dist
+
+README.md
+
+.docker/*
