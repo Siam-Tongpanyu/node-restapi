@@ -23,7 +23,8 @@ module.exports = {
       "mongodb+srv://siam_tongpanyu02:Olbanus835@cluster0siam-r5ldc.mongodb.net/test01?retryWrites=true&w=majority",
     option: {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
     }
   },
   corsOptions: corsOptions
