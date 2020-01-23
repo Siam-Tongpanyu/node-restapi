@@ -20,7 +20,7 @@ module.exports = {
   mongo: {
     uri:
       process.env.MONGO_URI ||
-      "mongodb+srv://siam_tongpanyu02:Olbanus835@cluster0siam-r5ldc.mongodb.net/test01?retryWrites=true&w=majority",
+      "mongodb+srv://<username>:<password>@cluster0siam-r5ldc.mongodb.net/<databasename>?retryWrites=true&w=majority",
     option: {
       useNewUrlParser: true,
       useUnifiedTopology: true,
