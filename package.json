@@ -4,7 +4,7 @@
   "description": "sample rest api",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll",
     "start": "nodemon ./src/index.js"
   },
   "author": "Siam Tongpanyu siam.tongpanyu@gmail.com",

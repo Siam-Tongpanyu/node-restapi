@@ -3,8 +3,9 @@ const User = require("../models/user");
 
 const errorHandle = (message, statusCode, errResult) => {
   errResult = errResult || 0;
+  message = message || "default error message from errorHandle";
   error = new Error(message);
-  error.statusCode = statusCode;
+  error.statusCode = statusCode || 500;
   if (errResult) {
     error.data = errResult.array();
   }

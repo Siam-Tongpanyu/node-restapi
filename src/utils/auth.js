@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../config/vars");
 const bcrypt = require("bcrypt");
-const Sal_Round = 12;
+const sal_Round = 12;
 const expiresIn = "1h";
 
 const generateToken = reqObject => {
@@ -23,9 +23,12 @@ const generateToken = reqObject => {
 
 const verifyToken = token => {
   if (token) {
-    // Authorization: Bearer <token>
-    const accessToken = token.split(" ")[1];
     return new Promise((resolve, reject) => {
+      // Authorization: Bearer <token>
+      const accessToken = token.split(" ")[1];
+      if (!accessToken) {
+        reject("Your header authorization is incorrect!!");
+      }
       jwt.verify(accessToken, jwtSecret, (error, decode) => {
         if (error) {
           reject("Your authorization is incorrect!!");
@@ -64,7 +67,7 @@ const checkAuth = (req, res, next) => {
 
 const encrypt = reqString => {
   return new Promise((resolve, reject) => {
-    return bcrypt.hash(reqString, Sal_Round, (error, hash) => {
+    return bcrypt.hash(reqString, sal_Round, (error, hash) => {
       if (error) {
         return reject(error);
       } else {
@@ -78,5 +81,7 @@ module.exports = {
   verifyToken: verifyToken,
   encrypt: encrypt,
   generateToken: generateToken,
-  checkAuth: checkAuth
+  checkAuth: checkAuth,
+  sal_Round: sal_Round,
+  expiresIn: expiresIn
 };
