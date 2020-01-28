@@ -1,8 +1,6 @@
 const auth = require("../../../utils/auth");
 const jwt = require("jsonwebtoken");
-const {
-  jwtSecret
-} = require("../../../config/vars");
+const { jwtSecret } = require("../../../config/vars");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
@@ -55,7 +53,8 @@ describe("auth.verifyToken", () => {
   });
 
   test("Should be reject if not correct token in headerAuth", async () => {
-    const fakeToken = await jwt.sign({
+    const fakeToken = await jwt.sign(
+      {
         userId: "12345",
         email: "xxx@test.com"
       },
@@ -70,16 +69,16 @@ describe("auth.verifyToken", () => {
   });
 });
 
-describe('auth.checkAuth', () => {
-  test('Should generate req.userId', async () => {
+describe("auth.checkAuth", () => {
+  test("Should generate req.userId", async () => {
     jest.restoreAllMocks();
     const token = await auth.generateToken({
       userId: mongoose.Types.ObjectId(),
       email: "xxx@test.com"
     });
-    const mockRequest = (authHeader) => ({
+    const mockRequest = authHeader => ({
       get(name) {
-        if (name === 'Authorization') {
+        if (name === "Authorization") {
           return authHeader;
         }
         return null;
@@ -93,15 +92,15 @@ describe('auth.checkAuth', () => {
     expect(req.userId).toBeDefined();
   });
 
-  test('Should return status 404 error because invalid MongoDB ID', async () => {
+  test("Should throw error because invalid MongoDB ID", async () => {
     jest.restoreAllMocks();
     const token = await auth.generateToken({
       userId: "12345",
       email: "xxx@test.com"
     });
-    const mockRequest = (authHeader) => ({
+    const mockRequest = authHeader => ({
       get(name) {
-        if (name === 'Authorization') {
+        if (name === "Authorization") {
           return authHeader;
         }
         return null;
@@ -118,7 +117,7 @@ describe('auth.checkAuth', () => {
     const res = mockResponse();
     const next = jest.fn();
     expect(() => {
-      auth.checkAuth(req, res, next)
+      auth.checkAuth(req, res, next);
     }).toThrow(new Error("invalid MongoDB ID"));
   });
 });
