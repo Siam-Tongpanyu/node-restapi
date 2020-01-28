@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../config/vars");
+const {
+  jwtSecret
+} = require("../config/vars");
 const bcrypt = require("bcrypt");
+const validator = require("../utils/validator");
 const sal_Round = 12;
 const expiresIn = "1h";
 
@@ -8,8 +11,9 @@ const generateToken = reqObject => {
   return new Promise((resolve, reject) => {
     jwt.sign(
       reqObject,
-      jwtSecret,
-      { expiresIn: expiresIn },
+      jwtSecret, {
+        expiresIn: expiresIn
+      },
       (error, newToken) => {
         if (error) {
           reject(error);
@@ -48,7 +52,14 @@ const checkAuth = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-  const token = headerAuth.split(" ")[1];
+  let token = '';
+  if (headerAuth.trim().split(" ").length == 2) {
+    token = headerAuth.split(" ")[1];
+  } else {
+    error = new Error("Not found token");
+    error.statusCode = 404;
+    throw error;
+  }
   let decodeToken;
   try {
     decodeToken = jwt.verify(token, jwtSecret);
@@ -61,7 +72,9 @@ const checkAuth = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-  req.userId = decodeToken.userId;
+  if (validator.checkMongoId(decodeToken.userId)) {
+    req.userId = decodeToken.userId;
+  }
   next();
 };
 

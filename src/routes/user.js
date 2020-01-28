@@ -5,8 +5,8 @@ const auth = require("../utils/auth");
 
 const router = express.Router();
 
-router.put("/signup", validator.userController.signup, userController.signup);
-router.post("/login", validator.userController.login, userController.login);
+router.post("/signup", validator.userController.signup, userController.signup);
+router.put("/login", validator.userController.login, userController.login);
 router.get("/status", auth.checkAuth, userController.getStatus);
 router.put(
   "/status",

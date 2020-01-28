@@ -1,4 +1,9 @@
-const { check, body, validationResult } = require("express-validator");
+const {
+  check,
+  body,
+  validationResult
+} = require("express-validator");
+const mongoose = require("mongoose");
 const User = require("../models/user");
 const validator = require("../utils/validator");
 const auth = require("../utils/auth");
@@ -53,8 +58,8 @@ exports.login = (req, res, next) => {
   const password = req.body.password;
   let loadUser;
   User.findOne({
-    email: email
-  })
+      email: email
+    })
     .then(userDoc => {
       if (!userDoc) {
         validator.errorHandle("not found this email.", 401);
@@ -88,6 +93,9 @@ exports.login = (req, res, next) => {
 };
 
 exports.getStatus = (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.userId)) {
+    validator.errorHandle("userId from token is invalid", 404);
+  }
   User.findById(req.userId)
     .then(user => {
       if (!user) {
@@ -106,6 +114,9 @@ exports.getStatus = (req, res, next) => {
 };
 
 exports.updateStatus = (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.userId)) {
+    validator.errorHandle("userId from token is invalid", 404);
+  }
   const newStatus = req.body.status;
   User.findById(req.userId)
     .then(user => {

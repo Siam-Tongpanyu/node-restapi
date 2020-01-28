@@ -1,4 +1,8 @@
-const { check, body, validationResult } = require("express-validator");
+const {
+  check,
+  body,
+  validationResult
+} = require("express-validator");
 const Post = require("../models/post");
 const User = require("../models/user");
 const validator = require("../utils/validator");
@@ -17,21 +21,11 @@ const deleteFile = filePath => {
 exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 5;
-  let totalItems;
-  Post.find()
-    .countDocuments()
-    .then(count => {
-      totalItems = count;
-      return Post.find()
-        .skip((currentPage - 1) * perPage)
-        .limit(perPage);
-    })
-    .then(posts => {
-      console.log();
+  Post.getPostsPagination(currentPage, perPage).then(result => {
       res.status(200).json({
         message: "find posts successfuly.",
-        posts: posts,
-        totalItems: totalItems
+        posts: result.posts,
+        totalItems: result.totalItems
       });
     })
     .catch(err => {
@@ -77,7 +71,10 @@ exports.createPost = (req, res, next) => {
       res.status(201).json({
         message: "Create post successful",
         post: post,
-        creator: { _id: creator._id, name: creator.name }
+        creator: {
+          _id: creator._id,
+          name: creator.name
+        }
       });
     })
     .catch(err => {
