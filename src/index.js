@@ -63,5 +63,9 @@ mongoose
 let server = app.listen(port, () => {
   console.log("server start on port " + port);
 });
+const io = require("./socket").init(server);
+io.on("connection", socket => {
+  console.log("Clients connected");
+});
 
 module.exports = server;
