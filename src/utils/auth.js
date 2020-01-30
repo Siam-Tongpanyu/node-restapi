@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
-const {
-  jwtSecret
-} = require("../config/vars");
+const { jwtSecret } = require("../config/vars");
 const bcrypt = require("bcrypt");
 const validator = require("../utils/validator");
 const sal_Round = 12;
@@ -11,7 +9,8 @@ const generateToken = reqObject => {
   return new Promise((resolve, reject) => {
     jwt.sign(
       reqObject,
-      jwtSecret, {
+      jwtSecret,
+      {
         expiresIn: expiresIn
       },
       (error, newToken) => {
@@ -52,7 +51,7 @@ const checkAuth = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-  let token = '';
+  let token = "";
   if (headerAuth.trim().split(" ").length == 2) {
     token = headerAuth.split(" ")[1];
   } else {

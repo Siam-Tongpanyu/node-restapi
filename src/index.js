@@ -4,11 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 const upload = require("./utils/upload");
-const {
-  port,
-  mongo,
-  corsOptions
-} = require("./config/vars.js");
+const { port, mongo, corsOptions } = require("./config/vars.js");
 const feedRoutes = require("./routes/feed");
 const userRoutes = require("./routes/user");
 
