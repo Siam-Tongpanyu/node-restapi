@@ -14,7 +14,7 @@
   "author": "Siam Tongpanyu siam.tongpanyu@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv-safe": "^8.2.0",
